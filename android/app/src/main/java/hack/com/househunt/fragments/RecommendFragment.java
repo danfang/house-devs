@@ -7,21 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import butterknife.ButterKnife;
-import hack.com.househunt.R;
-
 /**
- * MainFragment used after the user authenticates with Facebook.
+ * Recommendation
  */
-public class MainFragment extends Fragment {
+public class RecommendFragment extends Fragment {
 
-    public static final String TAG = MainFragment.class.getSimpleName();
+    public static final String TAG = RecommendFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.main_frag, container, false);
-        ButterKnife.inject(this, v);
-        return v;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+
 }

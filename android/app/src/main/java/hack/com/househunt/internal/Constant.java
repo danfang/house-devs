@@ -9,6 +9,6 @@ public class Constant {
 
     }
 
-
+    public static final String DEFAULT_FONT = "quicksandregular.ttf";
 
 }

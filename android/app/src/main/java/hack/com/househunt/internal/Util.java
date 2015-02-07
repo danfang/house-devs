@@ -1,8 +1,6 @@
 package hack.com.househunt.internal;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -19,7 +17,7 @@ public class Util {
 
     }
 
-    public static void switchFragments(FragmentActivity a, Fragment newFrag, String tag) {
+    public static void switchFragments(FragmentActivity a, Fragment newFrag, String tag, boolean replace) {
         FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().addToBackStack(tag);
         ft.replace(R.id.container, newFrag, tag).commit();
         Log.d(tag, "Switched to " + tag + " fragment");

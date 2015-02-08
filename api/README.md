@@ -39,9 +39,7 @@ Response
 | ---- | ---- |
 | success | boolean |
 
-### GET /saved/:userId
-### GET /rejected/:userId
-### GET /history/:userId
+### GET /saved/:userId | GET /rejected/:userId | GET /history/:userId
 
 Get the list of saved, rejected, and all houses for this user
 

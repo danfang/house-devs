@@ -1,0 +1,2 @@
+CREATE DATABASE housing;
+ALTER DATABASE housing OWNER TO api;

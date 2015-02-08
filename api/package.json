@@ -1,0 +1,18 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "The internal API service for client and algorithm calls",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+      "body-parser": "~1.10.2",
+      "express": "~4.11.1",
+      "request": "^2.51.0",
+      "winston": "^0.8.3",
+      "pg": "^4.2.0"
+  }
+}

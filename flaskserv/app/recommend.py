@@ -6,15 +6,10 @@ Created on Sat Feb 07 14:59:57 2015
 """
 import pandas as pd
 
-'''
-test data
-Recommend: {u'category': u'Single Professional', u'subsidy': False, u'age_range': 0, u'user_id': u'10200118760568306', u'price_weight': u'1', u'locale': u'Vhvh', u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
-'''
-
-
 #user = {'user_id' : 'Jay Feng', 'beds': 2, 'subsidy' : False, 'income': 40000, 
-#'price_weight': 100, 'age': 60}
+#'price_weight': 100, 'age': 50}
 #user = pd.read_json(fileDan)
+#user1 = pd.DataFrame(user, index=[1])
 c = '/home/jfeng/output.json'
 #c = 'C:/Users/Jay/Documents/output.json'
 global c
@@ -35,9 +30,7 @@ global globalUserData
 #Return apartment json recommendation
 #TODO: Adjust for school recommendation
 def get_rec(user):
-    print 'Recommend: {0}'.format(user)
-    user = pd.read_json(user)
-    print 'Recommend: After Read {0}'.format(user)
+    user = pd.DataFrame(user, index=[1])
     rent = get1(user)
     return rent.to_json()
 
@@ -74,10 +67,14 @@ def retrieve(data, user):
         #filter for correct number of beds and price below income level
         apartment = data[(data['beds'] == int(user['beds'])) & (data['price'] < (int(user['income'])/12)*(int(user['price_weight'])/100)*0.3)]
         #assign the nicest neighborhood for the price
+        if len(apartment) < 1:
+            return NaN
         apartment = min(apartment['buyerseller'])
     else:
         #filter for correct number of beds and fair market rate prices given number of beds
         apartment = data[(data['beds'] == int(user['beds'])) & (data['price'] < int(fmr['%s' %int(user['beds'])]))]
+        if len(apartment) < 1:
+            return NaN
         apartment = max(apartment['buyerseller'])
     #Grab the top value in the index 
     apartment = data[data['buyerseller'] == apartment][0:1]

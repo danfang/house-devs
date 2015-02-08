@@ -8,7 +8,7 @@ import pandas as pd
 
 #user = {'user_id' : 'Jay Feng', 'beds': 2, 'subsidy' : False, 'income': 40000, 
 #'price_weight': 100, 'age': 50}
-user1 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
+'''user1 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
 0, u'user_id': u'10200118760568306', u'price_weight': u'1', u'locale': u'Vhvh', 
 u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
     3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
@@ -20,6 +20,7 @@ user3 = {u'category': u'Single Professional', u'subsidy': False, u'age_range':
 0, u'user_id': u'10200118760568306', u'price_weight': u'1.2', u'locale': u'Vhvh', 
 u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
     3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
+'''
 #user = pd.read_json(fileDan)
 #user1 = pd.DataFrame(user, index=[1])
 c = '/home/jfeng/output.json'

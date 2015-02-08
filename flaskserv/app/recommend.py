@@ -6,60 +6,58 @@ Created on Sat Feb 07 14:59:57 2015
 """
 import pandas as pd
 
-#user = {'user_id' : 'Jay Feng', 'beds': 2, 'subsidy' : False, 'income': 40000, 
-#'price_weight': 100, 'age': 50}
-'''user1 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
-0, u'user_id': u'10200118760568306', u'price_weight': u'1', u'locale': u'Vhvh', 
+'''
+user = {'user_id' : 'Jay Feng', 'beds': 2, 'subsidy' : False, 'income': 40000, 
+'price_weight': 100, 'age': 50}
+user1 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
+2, u'user_id': u'10200118760568302', u'price_weight': u'1', u'locale': u'Vhvh', 
 u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
     3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
 user2 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
-0, u'user_id': u'10200118760568306', u'price_weight': u'.9', u'locale': u'Vhvh', 
+2, u'user_id': u'10200118760568302', u'price_weight': u'.9', u'locale': u'Vhvh', 
 u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
     3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
 user3 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
-0, u'user_id': u'10200118760568306', u'price_weight': u'1.2', u'locale': u'Vhvh', 
+2, u'user_id': u'10200118760568303', u'price_weight': u'1.2', u'locale': u'Vhvh', 
 u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
     3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
 '''
 #user = pd.read_json(fileDan)
 #user1 = pd.DataFrame(user, index=[1])
-c = '/home/jfeng/output.json'
+#c = '/home/jfeng/output.json'
 #c = 'C:/Users/Jay/Documents/output.json'
-global c
+#global c
 #craig = pd.read_json(c)
-acc = '/home/jfeng/accessible_data.json'
-#acc = 'C:/Users/Jay/Documents/accessible_data.json'
-global acc
+dataset = '/home/jfeng/dataset.json'
+#dataset = 'C:/Users/Jay/Documents/dataset.json'
+global dataset
 fmr = pd.read_csv('/home/jfeng/FMR_Path.csv')
 #fmr = pd.read_csv('C:/Users/Jay/Documents/FMR_Path.csv')
 global fmr
 #accessible = pd.read_json(acc)
 
-globalUserData = {}
-global globalUserData
 # key for the dict - userId from the API
 
 #Pass in user json information
 #Return apartment json recommendation
 #TODO: Adjust for school recommendation
 def get_rec(user):
+    global dataset
     user = pd.DataFrame(user, index=[1])
     rent = get1(user)
     return rent.to_json()
 
 #Pass in user as a pandas dataframe    
 def get1(user):
-    global acc
-    global c
+    global dataset
     #check for elderly
+    #retrieve dataset corresponding to old people
+    data = get(user['user_id'].item(), dataset)
     if int(user['age_range']) > 1:
-        #retrieve dataset corresponding to old people
-        data = get(user['user_id'].item(), acc)
+        data = data[data['type'] == 'accessible']
     else:
-        #retrieve dataset for everyone elsess
-        data = get(user['user_id'].item(), c)
-    #call retrieve function to generate recommendation on specific user
-    apartment = retrieve(data, user)
+        data = data[data['type'] == 'regular']
+    apartment = retrieve(data, user)    
     return apartment
 
 #pass in userId and path to dataset

@@ -18,14 +18,26 @@ public class Liveable {
     private double longtitude;
     private double estimatedPrice;
     private double educationRating;
+    private String address;
+    private String type;
+    private int beds;
+    private int zipCode;
+    private int recId;
+
 
     public Liveable(JSONObject data) {
         try {
             if (data != null) {
                 latitude = data.getDouble("latitude");
                 longtitude = data.getDouble("longitude");
-                estimatedPrice = data.getDouble("estimated_price");
+                estimatedPrice = data.getDouble("price");
                 educationRating = data.getDouble("education_rating");
+                address = data.getString("address");
+                type = data.getString("type");
+                recId = data.getInt("rec_id");
+                zipCode = data.getInt("zipcode");
+                beds = data.getInt("beds");
+                type = data.getString("type");
             } else {
                 Log.e(TAG, "Data passed into creating the Liveable is null!");
             }
@@ -49,4 +61,25 @@ public class Liveable {
     public double getEducationRating() {
         return educationRating;
     }
+
+    public int getNumberOfBeds() {
+        return beds;
+    }
+
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public int getRecId() {
+        return recId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
 }

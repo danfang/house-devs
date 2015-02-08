@@ -96,20 +96,19 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 if (statusCode == 200) { // success!
-                    UserSession.getInstance().setLiveable(response);
-                    Util.switchFragments(getActivity(), new RecommendFragment(),
-                            QuestionaireFragment.TAG, true);
+                    Log.d(TAG, "Got back " + response + " from the API");
+                    Util.getRecommendation(getActivity(), true);
                 }
             }
 
             // status code == 404, user does not exist yet
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                if (statusCode == 404) { // no user exists yet, prompt the questionaire.
-                Log.d(TAG, "Got response code " + statusCode + " from HouseHunters API");
-                    Util.switchFragments(getActivity(), new QuestionaireFragment(),
+                if (statusCode == 404) { // no user exists yet, prompt the questionaire.
+                    Log.d(TAG, "Got response code " + statusCode + " from HouseHunters API");
+                        Util.switchFragments(getActivity(), new QuestionaireFragment(),
                             QuestionaireFragment.TAG, true);
-//                }
+                }
             }
         });
     }

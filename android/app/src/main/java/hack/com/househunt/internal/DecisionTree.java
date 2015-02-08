@@ -148,22 +148,31 @@ public class DecisionTree {
 
         subsidies.pointers = new DecisionNode[]{transportationCosts};
 
-        income.pointers = new DecisionNode[]{vouchers};
+        income.pointers = new DecisionNode[]{vouchers, transportationCosts};
         transportationCosts.pointers = new DecisionNode[]{beds};
 
         beds.pointers = new DecisionNode[]{rentOrBuy};
     }
 
     public void decide(Object option) {
-        if (cur.pointers != null) {
+        if (cur != null && cur.pointers != null) {
             for (int i = 0; i < cur.pointers.length; i++) {
                 DecisionNode current = cur.pointers[i];
                 if (current.option != null && current.option.equals(option)) {
                     cur = cur.pointers[i]; // traverse down that path.
                 }
             }
-            if (cur.question == null || hasUpperCase(cur.option)) { // only one path
+            if (cur.question == null || hasUpperCase(cur.option) && cur.id != null && (!cur.id
+                    .equals("income")))
+            { // only one path
                 cur = cur.pointers[0];
+            } else if (cur.id != null && cur.id.equals("income")) {
+                Integer income = (Integer) option;
+                if (income < Constant.MEDIAN_INCOME) {
+                    cur = cur.pointers[0]; // then ask about subsidies
+                } else {
+                    cur = cur.pointers[1]; // then ask about transportation costs.
+                }
             }
         } else {
             cur = null;

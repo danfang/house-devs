@@ -88,17 +88,16 @@ public class QuestionaireFragment extends Fragment {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
                     Log.d(TAG, statusCode + " status code. Success!");
-                    Util.switchFragments(getActivity(), new RecommendFragment(),
-                            RecommendFragment.TAG, false);
+                    Util.getRecommendation(getActivity(), true);
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     super.onFailure(statusCode, headers, throwable, errorResponse);
-                    Log.d(TAG, "It failed!");
+                    Log.d(TAG, "It failed! Status code " + statusCode + ". Error response: " +
+                            errorResponse);
                 }
             });
-
         }
     }
 

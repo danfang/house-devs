@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +22,11 @@ public class UserSession {
     private JSONObject userData;
     private String userId;
     private List<Liveable> savedLiveables; // used to be displayed on the grid view
-    private Liveable recommendedLiveable;
+    private List<Liveable> recommendedLiveable;
 
     private UserSession() {
         userData = new JSONObject();
+        recommendedLiveable = new ArrayList<>();
     }
 
     public static UserSession getInstance() {
@@ -74,7 +76,11 @@ public class UserSession {
      * @param data The data received from the HouseHunters GET Recommendation API Call.
      */
     public void setLiveable(JSONObject data) {
-        this.recommendedLiveable = new Liveable(data);
+        recommendedLiveable.add(new Liveable(data));
+    }
+
+    public List<Liveable> getRecommendedLiveables() {
+        return recommendedLiveable;
     }
 
     /**
@@ -100,15 +106,8 @@ public class UserSession {
                 }
             }
             String firstHome = (String) userData.remove("first_home");
-            switch (firstHome) {
-                case "Yes": {
-                    userData.put("first_home", true);
-                    break;
-                }
-                case "No": {
-                    userData.put("first_home", false);
-                    break;
-                }
+            if (firstHome != null) {
+                userData.put("first_home", firstHome.equals("Yes"));
             }
             String educationWeight = (String) userData.remove("education_weight");
             if (educationWeight != null) {
@@ -123,9 +122,19 @@ public class UserSession {
                 userData.put("amenities_weight", 0);
             }
             String voucher = (String) userData.remove("voucher");
-            userData.put("voucher", voucher.equals("Yes"));
+            if (voucher != null) {
+                userData.put("voucher", voucher.equals("Yes"));
+            } else {
+                userData.put("voucher", false);
+            }
             String subsidies = (String) userData.remove("subsidies");
-            userData.put("subsidy", subsidies.equals("Yes"));
+            if (subsidies != null ) {
+                userData.put("subsidy", subsidies.equals("Yes"));
+            } else {
+                userData.put("subsidy", false);
+            }
+            String buyOrRent = (String) userData.remove("prop_type");
+            userData.put("prop_type", buyOrRent.toLowerCase());
             userData.put("price_weight", 1);
         } catch (JSONException e) {
             e.printStackTrace();

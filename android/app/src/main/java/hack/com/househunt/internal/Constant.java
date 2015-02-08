@@ -25,6 +25,8 @@ public class Constant {
 
     public static final int DUAL_PROFESSIONAL_FAMILY = 79569;
 
+    public static final int MEDIAN_INCOME = 32500;
+
     public static final String SINGLE_PROFESSIONAL_STR = "Single Professional";
 
     public static final String WORKING_INDIVIDUAL_STR = "Working Individual";
@@ -34,4 +36,5 @@ public class Constant {
     public static final String MODERATE_INCOME_FAMILY_STR = "Moderately Income Family";
 
     public static final String DUAL_PROFESSIONAL_FAMILY_STR = "Duel Professional Family";
+
 }

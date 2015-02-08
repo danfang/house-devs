@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var winston = require('winston');
+var request = require('request');
 var util = require('./util.js');
 
 var logger = new (winston.Logger)({
@@ -39,7 +40,7 @@ var handlePgCallError = function(err, res, queryErr) {
     } else if (err) {
         var msg;
         msg = queryErr ? queryErr : 'There was an issue with your query.';
-        res.json({'error': msg });
+        res.status(400).json({'error': msg });
         return true;
     }
     return false;
@@ -126,12 +127,114 @@ router.get('/history/:userId', function(req, res) {
 });
 
 router.get('/rec/:userId', function(req, res) {
-
+    getRec(req.params.userId, res);
 });
 
 router.put('/rec/:recId', function(req, res) {
-
+    data = req.body;
+    if (data.hasOwnProperty("save")) {
+        toSave = data['save'];
+        if (toSave) {
+            util.pgCall('saveRec', [req.params.recId], function(err, result) {
+                if (handlePgCallError(err, res)) return;
+                res.json({'success': true});
+            });
+        } else {
+            if (data.hasOwnProperty("reject_reason")) {
+                updateRec(req.params.recId, res, data['reject_reason']);
+            } else {
+                return res.status(400).json({'error': 'missing reject reason'});
+            }
+        }
+    }
 });
+
+var updateRec = function(recId, res, reason) {
+
+    util.pgCall('getUserFromRec', [recId], function(err, result) {
+        if (handlePgCallError(err, res)) return;
+
+        userData = result.rows[0];
+
+        if (reason === 'price_high') {
+            userData.price_weight -= 10.0;
+        } else if (reason === 'price_low') {
+            userData.price_weight += 10.0;
+        } else if (reason === 'accessible_low') {
+            userData.amenities_weight += 10.0;
+        } else if (reason === 'accessible_high') {
+            userData.amenities_weight -= 10.0;
+        } else if (reason === 'education_low') {
+            userData.education_weight += 10.0;
+        } else if (reason === 'education_high') {
+            userData.education_weight -= 10.0;
+        } else if (reason === 'transportation_high') {
+            userData.transportation_weight += 10.0;
+        } else if (reason === 'transportation_low') {
+            userData.transportation_weight -= 10.0;
+        }
+
+        userFields = ['price_weight', 'amenities_weight', 'education_weight', 'transportation_weight'];
+        userValues = [];
+
+        for (index in userFields) {
+            field = reqFields[index];
+            values.push(userData[field]);
+        }
+
+        userValues.push(userData.user_id);
+
+        util.pgCall('updateUser', userValues, function(err, result) {
+
+            if (handlePgCallError(err, res)) return;
+
+            res.json({'success': true});
+
+        });
+
+    });
+};
+
+
+var getRec = function(userId, res) {
+    logger.info('getting recommendation from algo');
+    util.pgCall('getUserData', [userId], function(err, result) {
+        if (handlePgCallError(err, res)) return;
+
+        if (result.rowCount !== 1) {
+            logger.error('Failed to retrieve user data');
+            res.status(500).json({'error': 'user does not exist'});
+            return;
+        }
+
+        data = result.rows[0];
+        data['user_id'] = userId;
+
+        options = {
+            url: 'http://localhost:5000/getrec',
+            json: true,
+            body: data
+        } 
+
+        request(options, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var info = body;
+
+                util.pgCall('insertRec', [], function(err, result) {
+                    if (handlePgCallError(err, res)) return;
+
+                    info['rec_id'] = result.rows[0].rec_id;
+
+                    res.json(info);
+                });
+
+            } else {
+                res.status(404).send('Could not retrieve recommendation');
+            }
+        });
+    });
+};
+
 
 ////////////////////////////////
 //// Algorithm Calls

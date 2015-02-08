@@ -3,10 +3,15 @@ var conString = "postgres://api:UFZxjow070ddTzHzVWYHtJYXvidf1uNl@localhost/housi
 
 var sql = {
     'getUser': 'SELECT 1 FROM users WHERE user_id=$1',
+    'getUserData': 'SELECT * FROM users WHERE user_id=$1',
+    'getUserFromRec': 'SELECT u.* FROM users AS u JOIN recs AS r ON r.user_id=u.user_id WHERE r.rec_id=$1',
     'createUser': 'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
+    'updateUser': 'UPDATE users SET price_weight=$1, amenities_weight=$2, education_weight=$3, transportation_weight=$4 WHERE user_id=$5',
     'insertRec': 'INSERT INTO recs(user_id, prop_type, prop_id) VALUES ($1, $2, $3) RETURNING rec_id',
+    'rejectRec': 'UPDATE recs SET saved=false WHERE rec_id=$1',
     'getRecStatus': 'SELECT * from recs WHERE user_id=$1 AND save=$2',
     'getRecs': 'SELECT * from recs WHERE user_id=$1',
+    'saveRec': 'UPDATE recs SET saved=true WHERE rec_id=$1'
 }
 
 var logger;

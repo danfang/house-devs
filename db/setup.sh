@@ -11,6 +11,7 @@ psql -f extensions/extensions.sql -d housing
 psql -f tables/ages.sql -d housing
 psql -f tables/prop_types.sql -d housing
 psql -f tables/reject_reasons.sql -d housing
+psql -f tables/prop_rent.sql -d housing
 psql -f tables/users.sql -d housing
 psql -f tables/recs.sql -d housing
 psql -f tables/user_messages.sql -d housing

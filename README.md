@@ -41,15 +41,15 @@ Finally, we will continue to pursue adding in layers of datasets to facilitiate 
 
 ## Team
 
-Daniel Fang (API/DevOps) - Sophomore, UW CSE
+[Daniel Fang](http://danielfang.org) (API/DevOps) - Sophomore, UW CSE
 
-Deepak Nettem (Data) - Microsoft, Azure Team
+[Deepak Nettem](https://github.com/deepaknettem) (Data) - Microsoft, Azure Team
 
-James Lee (Data) - Sophomore, UW
+[James Lee](https://github.com/jameslee2299) (Data) - Sophomore, UW
 
-Jay Feng (Data) - Senior, UW CSE
+[Jay Feng](https://github.com/jayfeng1) (Data) - Senior, UW CSE
 
-Justin Harjanto (Android) - Sophomore, UW CSE
+[Justin Harjanto](http://justinharjanto.com) (Android) - Sophomore, UW CSE
 
 ## Technology Stack
 

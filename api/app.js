@@ -106,6 +106,8 @@ router.route('/user/:userId')
         return;
     }
 
+    logger.info(values);
+
     util.pgCall('createUser', values, function(err, result) {
         if (handlePgCallError(err, res)) return;
         res.json({'success': true});

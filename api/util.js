@@ -8,7 +8,7 @@ var sql = {
     'getUserFromRec': 'SELECT u.* FROM users AS u JOIN recs AS r ' +
             'ON r.user_id=u.user_id WHERE r.rec_id=$1',
     'createUser': 'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, ' + 
-            '$7, $8, $9, $10, $11, $12, $13, $14)',
+            '$7, $8, $9, $10, $11, $12, $13)',
     'updateUser': 'UPDATE users SET price_weight=$1, amenities_weight=$2, ' +
             'education_weight=$3, transportation_weight=$4 WHERE user_id=$5',
     'insertRec': 'INSERT INTO recs(user_id, area, city, beds, latitude, longitude, zipcode, price, buyerseller, type) ' +

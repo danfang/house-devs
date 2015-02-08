@@ -1,5 +1,118 @@
-extends layout
+doctype html
+html(lang="en")
+    head
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no")
+        title House Picker
 
-block content
-  h1= title
-  p Welcome to #{title}
+        // CSS 
+        link(href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection")
+        link(href="css/homepage.css" type="text/css" rel="stylesheet" media="screen,projection")
+    head
+
+    body
+        // Nav
+        nav.white(role="navigation")
+            .container
+                .nav-wrapper
+                    a#logo-container.brand-logo(href="#") LOGO
+                    
+                    ul#nav-mobile.right.side-nav
+                        li
+                            a(href="#") About
+                        li
+                            a(href="#") Demo
+                        li
+                            a(href="#") Download
+                        li 
+                            a(href="#") Source/Credits
+
+                    a.button-collapse(href="#" data-activates="nav-mobile")
+                        i.mdi-navigation-menu
+
+        #index-banner.parallax-container
+            .section.no-pad-bot
+                .container
+                    br
+                    br
+                    h1.header.center.black-text.text-lighten-2 Refine Housing
+                    .row.center
+                        h5.header.col.s12.light A housing agent that learns from your decisions and caters to your needs.
+                    .row.center
+                        a#download-button.btn-large.waves-effect.waves-light.lighten-1(href="#") DOWNLOAD
+                    br
+                    br
+            .parallax: img(src="img/background3.jpg" alt="Unsplashed background img 2")
+
+
+        .container
+            .section
+
+                // Icon section
+                .row
+                    .col.s12.m4
+                        .icon-block
+                            h2.center: i.mdi-image-flash-on
+                            h5.center Better Profiling
+                            p.light 
+
+                    .col.s12.m4
+                        .icon-block
+                            h2.center: i.mdi-social-group
+                            h5.center Smart Recommendations
+                            p.light
+                     
+                    .col.s12.m4
+                        .icon-block
+                            h2.center: i.mdi-action-settings
+                            h5.center Demographic Specific
+                            p.light
+
+        .parallax-container.valign-wrapper
+            .section.no-pad-bot
+                .container
+                    .row.center
+                        h5.header.col.s12.light Available for Android
+                    .row.center
+                        a#app_download-button.btn-large.waves-effect.waves-light.lighten-1(href="#") Get the App
+            
+            .parallax: img(src="/img/background2.jpg" alt="Unsplashed background img 2")
+
+        .container.valign-wrapper
+            .section
+                h5.center.header Committed to Open Source
+                .row.center
+                    a.center#source_code-button.btn-large.waves-effect.waves-light.lighten-1(href="https://github.com/danfang/house-devs") Source Code
+
+        footer.page-footer
+            .container
+                .row
+                    .col.l12.s12
+                        h5.white-text The Team
+                        ul
+                            li: a.white-text(href="http://danielfang.org/") Daniel Fang - API
+                            li: a.white-text(href="http://justinharjanto.com/") Deepak Nettem - Data (Resources/Datasets)
+                            li: a.white-text(href="http://justinharjanto.com/") James Lee - Data (Research)
+                            li: a.white-text(href="http://justinharjanto.com/") Jay Feng - Data (Algorithm)
+                            li: a.white-text(href="http://justinharjanto.com/") Justin Harjanto - Android Developer
+
+        // Scripts
+        script(src="https://code.jquery.com/jquery-2.1.1.min.js")
+        script(src="/js/materialize.min.js")
+        script(src="/js/init.js")
+        script.
+            $(document).ready(function() {
+
+                resizeTop();
+
+                $(window).resize(function() {
+                    resizeTop();
+                });
+
+            });
+
+            function resizeTop() {
+                $("#index-banner").css("height", $(window).height() - 60);
+                }
+
+    </body>
+</html>

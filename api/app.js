@@ -19,7 +19,7 @@ var debug = true;
 
 var REJECT_REASONS = {
     'price': 'price_weight',
-    'accessible': 'amentities_weight',
+    'accessible': 'amenities_weight',
     'education': 'education_weight',
     'transportation': 'transportation_weight',
     'high': -10.0,
@@ -154,7 +154,7 @@ router.get('/history/:userId', function(req, res) {
  * Retrieving a new recommendation from the algorithm engine, 
  * adding it to the database, and returning it to the client
  */
-router.get('/rec/:userId', function(req, res) {
+router.get('/rec/:userId/', function(req, res) {
     getRec(req.params.userId, res);
 });
 
@@ -164,8 +164,8 @@ router.get('/rec/:userId', function(req, res) {
  */
 router.put('/rec/:recId', function(req, res) {
     data = req.body;
-    if (data.hasOwnProperty("save")) {
-        accept = data['save'];
+    if (data.hasOwnProperty('save')) {
+        var accept = data['save'];
         if (accept) {
 
             // Mark this recommendation as saved
@@ -190,29 +190,39 @@ var updateRec = function(recId, res, reason) {
     util.pgCall('getUserFromRec', [recId], function(err, result) {
         if (handlePgCallError(err, res)) return;
 
+        if (result.rowCount == 0) {
+            res.status(404).json({'error': 'no recid'});
+            return;
+        }
+
         var userData = result.rows[0];
         var tokens = reason.split('_');
         var attr = tokens[0];
         var direction = tokens[1];
 
+        logger.info(userData);
+
         // Adjust weighting
         userData[REJECT_REASONS[attr]] += REJECT_REASONS[direction];
-        userFields = ['price_weight', 'amenities_weight', 'education_weight', 'transportation_weight'];
-        userValues = [];
+        var userFields = ['price_weight', 'amenities_weight', 'education_weight', 'transportation_weight'];
+        var userValues = [];
 
         for (index in userFields) {
-            field = reqFields[index];
-            values.push(userData[field]);
+            field = userFields[index];
+            userValues.push(userData[field]);
         }
 
         userValues.push(userData.user_id);
 
-        // If no errors, update the new user data
-        util.pgCall('updateUser', userValues, function(err, result) {
+        util.pgCall('rejectRec', [recId, REJECT_REASONS[attr]], function(err, result) {
             if (handlePgCallError(err, res)) return;
-            res.json({'success': true});
-        });
 
+            // If no errors, update the new user data
+            util.pgCall('updateUser', userValues, function(err, result) {
+                if (handlePgCallError(err, res)) return;
+                res.json({'success': true});
+            });
+        });
     });
 };
 
@@ -222,6 +232,7 @@ var updateRec = function(recId, res, reason) {
  */
 var getRec = function(userId, res) {
     logger.info('Getting recommendation from algo engine');
+
     util.pgCall('getUserData', [userId], function(err, result) {
         if (handlePgCallError(err, res)) return;
 
@@ -242,26 +253,35 @@ var getRec = function(userId, res) {
 
         request(options, function(error, response, body) {
             if (!error && response.statusCode == 200) {
-                var info = body;
+                var info = JSON.parse(body);
+                var method, infoFields;
+                infoFields = ['area', 'city', 'beds', 'latitude', 'longitude', 'zipcode', 'price', 'buyerseller', 'type'];
+                var infoValues = [];
+                infoValues.push(userId);
 
-                //var infoFields = ['', '', ''];
-                //var infoValues = [];
+                for (index in infoFields) {
+                    var field = infoFields[index];
+                    if (info[field]) {
+                        for (key in info[field]) {
+                            infoValues.push(info[field][key]);
+                        }
+                    } else {
+                        infoValues.push(null);
+                    }
+                }
 
-                //for (index in infoFields) {
-                //    var field = infoFields[index];
-                //    infoValues.push(field);
-               // }
+                logger.info(infoValues);
 
-               // util.pgCall('insertRec', [infoValues], function(err, result) {
-                 //   if (handlePgCallError(err, res)) return;
+                util.pgCall('insertRec', infoValues, function(err, result) {
+                    if (handlePgCallError(err, res)) return;
 
-                   // info['rec_id'] = result.rows[0].rec_id;
+                    info['rec_id'] = result.rows[0].rec_id;
 
                     res.json(info);
-               // });
+                });
 
             } else {
-                res.status(404).json({'error': 'Could not retrieve recommendation'});
+                res.status(404).json({'error': 'No results found'});
             }
         });
     });
@@ -271,10 +291,6 @@ var getRec = function(userId, res) {
 ////////////////////////////////
 //// Algorithm HTTP Calls
 ///////////////////////////////
-
-router.post('/rec', function(req, res) {
-
-});
 
 router.get('/history', function(req, res) {
 

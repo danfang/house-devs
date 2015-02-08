@@ -1,10 +1,15 @@
 CREATE TABLE recs (
     rec_id SERIAL PRIMARY KEY,
     user_id varchar REFERENCES users(user_id),
-    prop_type varchar REFERENCES prop_types(type),
-    prop_id integer NOT NULL,
     save boolean,
+    area varchar,
+    city varchar,
+    beds integer,
+    latitude numeric,
+    longitude numeric,
+    zipcode integer,
+    price integer,
+    buyerseller numeric, 
+    type varchar,
     reject_reason varchar REFERENCES reject_reasons(reason)
 );
-
-

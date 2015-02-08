@@ -58,7 +58,6 @@ Finally, we will continue to pursue adding in layers of datasets to facilitiate 
 - HUD Fair Market Rents for city income medians, voucher qualifications
 - Socrata Seattle Accessible Housing for senior citizen living options
 - Zillow API for Zestiments for mortgages and rents
-- Education ranking dataset
 
 ### Languages
 

@@ -41,7 +41,7 @@ Finally, we will continue to pursue adding in layers of datasets to facilitiate 
 
 ## Team
 
-[Daniel Fang](http://danielfang.org) (API/DevOps) - Sophomore, UW CSE
+[Daniel Fang](http://danielfang.org) (API/DevOps/Website) - Sophomore, UW CSE
 
 [Deepak Nettem](https://github.com/deepaknettem) (Data) - Microsoft, Azure Team
 

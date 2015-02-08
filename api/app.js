@@ -4,6 +4,7 @@ var winston = require('winston');
 var request = require('request');
 var util = require('./util.js');
 
+// Logging
 var logger = new (winston.Logger)({
         transports: [
             new (winston.transports.Console)(),
@@ -16,11 +17,21 @@ util.setLogger(logger);
 var PORT = 3000;
 var debug = true;
 
+var REJECT_REASONS = {
+    'price': 'price_weight',
+    'accessible': 'amentities_weight',
+    'education': 'education_weight',
+    'transportation': 'transportation_weight',
+    'high': -10.0,
+    'low': +10.0
+};
+
 var app = express();
 var router = express.Router();
 
 app.use(bodyParser.json());
 
+// Write all requests to log
 router.all('*', function(req, res, next) {
     logger.info(req.method + ' ' + req.hostname + req.path +
                     ' with: ' + JSON.stringify(req.body));
@@ -51,6 +62,9 @@ var handlePgCallError = function(err, res, queryErr) {
 //// Client Calls
 //////////////////////////////
 
+/**
+ * Creating and checking for user account creation
+ */
 router.route('/user/:userId')
 .get(function(req, res, next) {
     util.pgCall('getUser', [req.params.userId], function(err, result) {
@@ -99,6 +113,10 @@ router.route('/user/:userId')
 
 });
 
+
+/**
+ * Get the list of all saved suggested properties
+ */
 router.get('/saved/:userId', function(req, res) {
    util.pgCall('getRecStatus', [req.params.userId, true], function(err, result) {
         if (handlePgCallError(err, res)) return;
@@ -108,6 +126,9 @@ router.get('/saved/:userId', function(req, res) {
     });
 });
 
+/**
+ * Get the list of recently rejected suggested properties
+ */
 router.get('/rejected/:userId', function(req, res) {
    util.pgCall('getRecStatus', [req.params.userId, false], function(err, result) {
         if (handlePgCallError(err, res)) return;
@@ -117,63 +138,65 @@ router.get('/rejected/:userId', function(req, res) {
     });
 });
 
+/**
+ * Get the entire user history (atypical client call)
+ */
 router.get('/history/:userId', function(req, res) {
    util.pgCall('getRecs', [req.params.userId], function(err, result) {
         if (handlePgCallError(err, res)) return;
 
-        res.json({'rejected': result.rows});
+        res.json({'history': result.rows});
         return;
     });
 });
 
+/**
+ * Retrieving a new recommendation from the algorithm engine, 
+ * adding it to the database, and returning it to the client
+ */
 router.get('/rec/:userId', function(req, res) {
     getRec(req.params.userId, res);
 });
 
+/**
+ * Updating user recommendations, marking it as 'saved' or 'unsaved',
+ * then refiltering based on reject reason.
+ */
 router.put('/rec/:recId', function(req, res) {
     data = req.body;
     if (data.hasOwnProperty("save")) {
-        toSave = data['save'];
-        if (toSave) {
+        accept = data['save'];
+        if (accept) {
+
+            // Mark this recommendation as saved
             util.pgCall('saveRec', [req.params.recId], function(err, result) {
                 if (handlePgCallError(err, res)) return;
                 res.json({'success': true});
             });
+
+        } else if (data.hasOwnProperty('reject_reason')) {
+            updateRec(req.params.recId, res, data['reject_reason']);
         } else {
-            if (data.hasOwnProperty("reject_reason")) {
-                updateRec(req.params.recId, res, data['reject_reason']);
-            } else {
-                return res.status(400).json({'error': 'missing reject reason'});
-            }
+            return res.status(400).json({'error': 'missing reject reason'});
         }
     }
 });
 
+/**
+ * Retrieves user data, then updates it according to new weighting scheme
+ */
 var updateRec = function(recId, res, reason) {
 
     util.pgCall('getUserFromRec', [recId], function(err, result) {
         if (handlePgCallError(err, res)) return;
 
-        userData = result.rows[0];
+        var userData = result.rows[0];
+        var tokens = reason.split('_');
+        var attr = tokens[0];
+        var direction = tokens[1];
 
-        if (reason === 'price_high') {
-            userData.price_weight -= 10.0;
-        } else if (reason === 'price_low') {
-            userData.price_weight += 10.0;
-        } else if (reason === 'accessible_low') {
-            userData.amenities_weight += 10.0;
-        } else if (reason === 'accessible_high') {
-            userData.amenities_weight -= 10.0;
-        } else if (reason === 'education_low') {
-            userData.education_weight += 10.0;
-        } else if (reason === 'education_high') {
-            userData.education_weight -= 10.0;
-        } else if (reason === 'transportation_high') {
-            userData.transportation_weight += 10.0;
-        } else if (reason === 'transportation_low') {
-            userData.transportation_weight -= 10.0;
-        }
-
+        // Adjust weighting
+        userData[REJECT_REASONS[attr]] += REJECT_REASONS[direction];
         userFields = ['price_weight', 'amenities_weight', 'education_weight', 'transportation_weight'];
         userValues = [];
 
@@ -184,18 +207,19 @@ var updateRec = function(recId, res, reason) {
 
         userValues.push(userData.user_id);
 
+        // If no errors, update the new user data
         util.pgCall('updateUser', userValues, function(err, result) {
-
             if (handlePgCallError(err, res)) return;
-
             res.json({'success': true});
-
         });
 
     });
 };
 
 
+/**
+ * Gets a recommendation from the algorithm engine
+ */
 var getRec = function(userId, res) {
     logger.info('getting recommendation from algo');
     util.pgCall('getUserData', [userId], function(err, result) {
@@ -245,10 +269,10 @@ var getRec = function(userId, res) {
 
 
 ////////////////////////////////
-//// Algorithm Calls
+//// Algorithm HTTP Calls
 ///////////////////////////////
 
-router.post('/rec/', function(req, res) {
+router.post('/rec', function(req, res) {
 
 });
 

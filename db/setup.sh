@@ -15,6 +15,7 @@ psql -f tables/prop_rent.sql -d housing
 psql -f tables/users.sql -d housing
 psql -f tables/recs.sql -d housing
 psql -f tables/user_messages.sql -d housing
+psql -f tables/prop_accessible.sql -d housing
 
 # Grant permissions
 psql -f roles/permissions.sql -d housing

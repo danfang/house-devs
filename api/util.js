@@ -11,7 +11,8 @@ var sql = {
     'rejectRec': 'UPDATE recs SET saved=false WHERE rec_id=$1',
     'getRecStatus': 'SELECT * from recs WHERE user_id=$1 AND save=$2',
     'getRecs': 'SELECT * from recs WHERE user_id=$1',
-    'saveRec': 'UPDATE recs SET saved=true WHERE rec_id=$1'
+    'saveRec': 'UPDATE recs SET saved=true WHERE rec_id=$1',
+    'insertReq': 'INSERT INTO recs () VALUES ()',
 }
 
 var logger;

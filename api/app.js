@@ -220,16 +220,24 @@ var getRec = function(userId, res) {
             if (!error && response.statusCode == 200) {
                 var info = body;
 
-                util.pgCall('insertRec', [], function(err, result) {
-                    if (handlePgCallError(err, res)) return;
+                //var infoFields = ['', '', ''];
+                //var infoValues = [];
 
-                    info['rec_id'] = result.rows[0].rec_id;
+                //for (index in infoFields) {
+                //    var field = infoFields[index];
+                //    infoValues.push(field);
+               // }
+
+               // util.pgCall('insertRec', [infoValues], function(err, result) {
+                 //   if (handlePgCallError(err, res)) return;
+
+                   // info['rec_id'] = result.rows[0].rec_id;
 
                     res.json(info);
-                });
+               // });
 
             } else {
-                res.status(404).send('Could not retrieve recommendation');
+                res.status(404).json({'error': 'Could not retrieve recommendation'});
             }
         });
     });

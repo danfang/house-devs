@@ -19,7 +19,7 @@ global fmr
 #accessible = pd.read_json(acc)
 
 globalUserData = {}
-global globalUserData
+#global globalUserData
 # key for the dict - userId from the API
 
 #Pass in user json information
@@ -32,6 +32,8 @@ def get_rec(user):
 
 #Pass in user as a pandas dataframe    
 def get1(user):
+    global acc
+    global c
     #check for elderly
     if int(user['age']) > 55:
         #retrieve dataset corresponding to old people
@@ -48,11 +50,14 @@ def get(userId, dataPath):
     #check if userid already registered in product
     if userId not in globalUserData:
         #read in appropriate json if not
+        global globalUserData
         globalUserData[userId] = pd.read_json(dataPath)
     return globalUserData[userId]
 
 #pass in dataset and user parameters
 def retrieve(data, user):
+    global globalUserData
+    global fmr
     #check for users who need vouchers
     if not user['subsidy']:
         #filter for correct number of beds and price below income level

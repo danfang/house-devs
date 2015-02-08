@@ -2,7 +2,7 @@ doctype html
 html(lang="en")
     head
         meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no")
-        title House Picker
+        title Refine
 
         // CSS 
         link(href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection")
@@ -14,17 +14,19 @@ html(lang="en")
         nav.white(role="navigation")
             .container
                 .nav-wrapper
-                    a#logo-container.brand-logo(href="#") LOGO
+                    a#logo-container.brand-logo(href="#")
+                        i.mdi-action-cached
+                        |  R
                     
                     ul#nav-mobile.right.side-nav
                         li
                             a(href="#") About
                         li
-                            a(href="#") Demo
-                        li
                             a(href="#") Download
                         li 
-                            a(href="#") Source/Credits
+                            a(href="#") Source
+                        li
+                            a(href="#") Team
 
                     a.button-collapse(href="#" data-activates="nav-mobile")
                         i.mdi-navigation-menu
@@ -34,7 +36,7 @@ html(lang="en")
                 .container
                     br
                     br
-                    h1.header.center.black-text.text-lighten-2 Refine Housing
+                    h1.header.center.black-text.text-lighten-2 Refine
                     .row.center
                         h5.header.col.s12.light A housing agent that learns from your decisions and caters to your needs.
                     .row.center
@@ -51,58 +53,92 @@ html(lang="en")
                 .row
                     .col.s12.m4
                         .icon-block
-                            h2.center: i.mdi-image-flash-on
+                            h2.center: i.mdi-editor-insert-chart
                             h5.center Better Profiling
-                            p.light 
+                            p.light We provide a conversational profiling tool to better assess the demographics of our users. The questions are simple and intuitive to answer.
 
                     .col.s12.m4
                         .icon-block
                             h2.center: i.mdi-social-group
-                            h5.center Smart Recommendations
-                            p.light
+                            h5.center Smart Suggestions
+                            p.light We use many layers of data and datasets to form the best results for our users. The suggestions become better with further use.
                      
                     .col.s12.m4
                         .icon-block
                             h2.center: i.mdi-action-settings
-                            h5.center Demographic Specific
-                            p.light
-
+                            h5.center Alternative Housing
+                            p.light We provide insightful alternative housing options for users with special needs - disability, accessibility, and government subsidy programs to name a few.
+                
         .parallax-container.valign-wrapper
             .section.no-pad-bot
                 .container
                     .row.center
-                        h5.header.col.s12.light Available for Android
+                        h4.header.col.s12.light Available for Android
+
                     .row.center
                         a#app_download-button.btn-large.waves-effect.waves-light.lighten-1(href="#") Get the App
             
             .parallax: img(src="/img/background2.jpg" alt="Unsplashed background img 2")
 
-        .container.valign-wrapper
+        .parallax-container.valign-wrapper
             .section
-                h5.center.header Committed to Open Source
+                .row.center
+                    h4.center.black-text.header Committed to Open Source
+                .row.center
+                    p.black-text We're excited to share our methodology for our progressive refinement system.
+                    p.black-text Additionally, we plan on opening the API to allow housing suppliers and government entities to gain insight into preferences, and specific needs of various demographics.
                 .row.center
                     a.center#source_code-button.btn-large.waves-effect.waves-light.lighten-1(href="https://github.com/danfang/house-devs") Source Code
 
-        footer.page-footer
-            .container
-                .row
-                    .col.l12.s12
-                        h5.white-text The Team
-                        ul
-                            li: a.white-text(href="http://danielfang.org/") Daniel Fang - API
-                            li: a.white-text(href="http://justinharjanto.com/") Deepak Nettem - Data (Resources/Datasets)
-                            li: a.white-text(href="http://justinharjanto.com/") James Lee - Data (Research)
-                            li: a.white-text(href="http://justinharjanto.com/") Jay Feng - Data (Algorithm)
-                            li: a.white-text(href="http://justinharjanto.com/") Justin Harjanto - Android Developer
+        footer.page-footer.red.lighten-1
+            .section.no-pad-bot
+                .container
+                    .row
+                        .col.center.l12.s12
+                            h4.white-text The Team
+                    .row
+                        .col.l4.s4
+                            .member.center
+                                h5: a.white-text(href="http://danielfang.org/") Daniel Fang
+                                p API/DevOps
+                        .col.l4.s4
+                            .member.center
+                                h5: a.white-text(href="#") Deepak Nettem
+                                p Data (Resources/Datasets)
+                        .col.l4.s4
+                            .member.center
+                                h5: a.white-text(href="#") James Lee 
+                                p Data (Research)
+                        .col.l4.s4
+                            .member.center
+                                h5: a.white-text(href="#") Jay Feng
+                                p Data (Algorithms)
+                        .col.l4.s4
+                            .member.center
+                                h5: a.white-text(href="http://justinharjanto.com/") Justin Harjanto 
+                                p Android
+
+        .container
+            .section.no-pad-bot
+                .row.center
+                    p.center.black-text.header Copyright Refine, 2015
 
         // Scripts
         script(src="https://code.jquery.com/jquery-2.1.1.min.js")
         script(src="/js/materialize.min.js")
-        script(src="/js/init.js")
         script.
             $(document).ready(function() {
 
                 resizeTop();
+
+                $(".nav-wrapper li").each(function(index) {
+                    $(this).click(function() {
+                        var section = $(".section").get(index + 1);
+                        $('html, body').animate({
+                            scrollTop: $(section).offset().top - 25
+                        }, 750);
+                    });
+                });
 
                 $(window).resize(function() {
                     resizeTop();
@@ -112,7 +148,7 @@ html(lang="en")
 
             function resizeTop() {
                 $("#index-banner").css("height", $(window).height() - 60);
-                }
-
+            }
+        script(src="/js/init.js")
     </body>
 </html>

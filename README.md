@@ -9,6 +9,10 @@ We believe it's easier for users to answer questions about what they prefer and 
 
 We have built an API service, algorithm engine, and an Android client to present the data.
 
+## Documentation
+
+We have documented our schemas and public APIs, which can be found at [API Reference](api/README.md) and [DB Reference](db/README.md)
+
 ## Challenge Areas
 
 We decided to create a decision-making process (profile building) that allows us to explore many different aveneues of issues outlined in the Hack Housing guidelines. 

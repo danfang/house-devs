@@ -1,4 +1,5 @@
 import os
+from recommend import *
 from flask import Flask, request, Response, jsonify
 app = Flask(__name__)
 
@@ -13,6 +14,7 @@ def getRecommendations():
 		if request is not None:
 			print 'request received', request
 			jsonDat = request.json
+			jsonDat = get_rec(jsonDat)
 			print 'Json Got', jsonDat
 			resp = jsonify(jsonDat)
 			resp.status_code = 200

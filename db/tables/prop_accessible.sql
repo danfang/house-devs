@@ -1,5 +1,5 @@
-CREATE TABLE users (
-	zpid varchar PRIMARY KEY,
+CREATE TABLE prop_accessible (
+	zpid varchar,
 	accessible_smoke_detector boolean, 
 	bathroom_has_grab_bars boolean,
 	wide_doors boolean,
@@ -8,13 +8,13 @@ CREATE TABLE users (
 	door_has_a_knock_or_bell_signaller boolean,
 	bathroom_is_reinforced_for_grab_bars boolean,
 	automatic_entry boolean,
-	latitude numeric NOT NULL,
-	longitude numeric NOT NULL,
-	doors_have_lever_handles numeric boolean,
+	latitude numeric,
+	longitude numeric,
+	doors_have_lever_handles boolean,
 	zip_code integer,
 	tty_or_amplified_phone boolean,
 	bathroom_has_raised_toilets boolean,
-	bedrooms boolean,
+	bedrooms integer,
 	strobe_fire_alarm boolean,
 	accessible_laundry_facility boolean,
 	bathroom_has_a_roll_in_shower boolean,
@@ -28,4 +28,3 @@ CREATE TABLE users (
 	unit_on_first_floor boolean,
 	street_address varchar
 );
-COPY prop_accessible FROM '/home/dnettem/accessible_data.csv' DELIMITER ',' CSV;

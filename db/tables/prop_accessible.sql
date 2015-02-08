@@ -28,3 +28,4 @@ CREATE TABLE users (
 	unit_on_first_floor boolean,
 	street_address varchar
 );
+COPY prop_accessible FROM '/home/dnettem/accessible_data.csv' DELIMITER ',' CSV;

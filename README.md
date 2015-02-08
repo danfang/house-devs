@@ -31,7 +31,7 @@ Each branch specified above can be reached via questionaries along the decision 
 
 We have pretty straightfoward goals ahead of us. 
 
-Primarily, we want to finish up the decision tree to open up data and recommendations formore varied demographics and for cities outside of the City of Seattle. Finding consistent, well-formatted data for each city in itself is challenging, but we believe Socrata, the HUD, and Zillow are making these processes more and more accessible. 
+Primarily, we want to finish up the decision tree to open up data and recommendations for more varied demographics and for cities outside the Greater Seattle Area. Finding consistent, well-formatted data for each city in itself is challenging, but we believe Socrata, the HUD, and Zillow are making these processes more and more accessible. 
 
 Following this, we want to open up our API to the supply-side of the market - The US Government, landlords, housing developers, public housing services - in order to tap into the wealth of user feedback we receive based on the iterative refinement process we've built. We're imagining queries that can answer questions such as 'What is the most common issue single-parent families face in the home buying process?'We have a lot of the data to answer this question, but making it readily available and queriable would be another top priority.
 

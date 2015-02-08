@@ -1,4 +1,4 @@
-[Refine Housing](www.refinehousing.com) (Zillow Hack Housing)
+[Refine Housing](http://refinehousing.com) (Zillow Hack Housing)
 ==
 
 ## Overview

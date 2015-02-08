@@ -6,7 +6,6 @@ app = Flask(__name__)
 def hello():
         return "Hello from Python!"
 
-
 @app.route('/getrec', methods = ['GET','POST'])
 def getRecommendations():
 	try:
@@ -18,13 +17,20 @@ def getRecommendations():
 			resp.status_code = 200
 			return resp
 	except:
-		print 'Nothing posted'
+		print 'Invalid Request, Try Again'
 
 @app.route('/updaterec', methods = ['POST','GET'])
 def updateRecommendations():
-	jsonData = request.json()
-	print jsonData
-	return 'UpdateReco'
+	try:
+		if request is not None:
+			print 'updaterec', request
+			jsonDat = request.json
+			print 'Json Got', jsonDat
+			resp = jsonify(jsonDat)
+			resp.status_code = 200
+			return resp
+	except:
+		return 'Invalid Request, Try Again'
 
 if __name__ == "__main__":
         port = int(os.environ.get("PORT", 5000))

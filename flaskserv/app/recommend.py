@@ -35,7 +35,7 @@ fmr = pd.read_csv('/home/jfeng/FMR_Path.csv')
 #fmr = pd.read_csv('C:/Users/Jay/Documents/FMR_Path.csv')
 global fmr
 #accessible = pd.read_json(acc)
-
+globalUserData = {}
 # key for the dict - userId from the API
 
 #Pass in user json information

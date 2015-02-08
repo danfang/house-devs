@@ -4,7 +4,9 @@ var conString = "postgres://api:UFZxjow070ddTzHzVWYHtJYXvidf1uNl@localhost/housi
 var sql = {
     'getUser': 'SELECT 1 FROM users WHERE user_id=$1',
     'createUser': 'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
-    'insertRec': 'INSERT INTO recs(user_id, prop_type, prop_id) VALUES ($1, $2, $3) RETURNING rec_id'
+    'insertRec': 'INSERT INTO recs(user_id, prop_type, prop_id) VALUES ($1, $2, $3) RETURNING rec_id',
+    'getRecStatus': 'SELECT * from recs WHERE user_id=$1 AND save=$2',
+    'getRecs': 'SELECT * from recs WHERE user_id=$1',
 }
 
 var logger;

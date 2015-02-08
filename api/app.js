@@ -52,17 +52,14 @@ var handlePgCallError = function(err, res, queryErr) {
 
 router.route('/user/:userId')
 .get(function(req, res, next) {
-    logger.info('Got request for user ' + req.params.userId);
     util.pgCall('getUser', [req.params.userId], function(err, result) {
         if (handlePgCallError(err, res)) return;
 
         if (result.rowCount === 1) {
-            logger.info('200')
             res.status(200).json({'success': true});
             return;
         } 
 
-        logger.info('404')
         res.status(404).json({'success': false});
         return;
     });
@@ -102,15 +99,30 @@ router.route('/user/:userId')
 });
 
 router.get('/saved/:userId', function(req, res) {
+   util.pgCall('getRecStatus', [req.params.userId, true], function(err, result) {
+        if (handlePgCallError(err, res)) return;
 
+        res.json({'saved': result.rows});
+        return;
+    });
 });
 
 router.get('/rejected/:userId', function(req, res) {
+   util.pgCall('getRecStatus', [req.params.userId, false], function(err, result) {
+        if (handlePgCallError(err, res)) return;
 
+        res.json({'rejected': result.rows});
+        return;
+    });
 });
 
 router.get('/history/:userId', function(req, res) {
+   util.pgCall('getRecs', [req.params.userId], function(err, result) {
+        if (handlePgCallError(err, res)) return;
 
+        res.json({'rejected': result.rows});
+        return;
+    });
 });
 
 router.get('/rec/:userId', function(req, res) {

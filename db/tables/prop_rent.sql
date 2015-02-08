@@ -1,5 +1,5 @@
 CREATE TABLE prop_rent (
-	CraigID integer PRIMARY KEY,
+	CraigID bigint PRIMARY KEY,
 	price integer,
 	link varchar,
 	longitude double precision,
@@ -12,4 +12,4 @@ CREATE TABLE prop_rent (
 	zipcode char(5),
 	buyerseller double precision
 );
-COPY output FROM '/home/jfeng/output.csv' DELIMITER ',' CSV;
+COPY prop_rent FROM '/home/jfeng/output.csv' DELIMITER ',' CSV;

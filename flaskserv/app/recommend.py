@@ -6,6 +6,12 @@ Created on Sat Feb 07 14:59:57 2015
 """
 import pandas as pd
 
+'''
+test data
+Recommend: {u'category': u'Single Professional', u'subsidy': False, u'age_range': 0, u'user_id': u'10200118760568306', u'price_weight': u'1', u'locale': u'Vhvh', u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
+'''
+
+
 #user = {'user_id' : 'Jay Feng', 'beds': 2, 'subsidy' : False, 'income': 40000, 
 #'price_weight': 100, 'age': 60}
 #user = pd.read_json(fileDan)
@@ -29,7 +35,9 @@ global globalUserData
 #Return apartment json recommendation
 #TODO: Adjust for school recommendation
 def get_rec(user):
+    print 'Recommend: {0}'.format(user)
     user = pd.read_json(user)
+    print 'Recommend: After Read {0}'.format(user)
     rent = get1(user)
     return rent.to_json()
 

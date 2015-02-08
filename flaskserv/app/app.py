@@ -13,9 +13,10 @@ def getRecommendations():
 		if request is not None:
 			print 'request received', request
 			jsonDat = request.json
-			jsonDat = get_rec(jsonDat)
-			print 'Json Got', jsonDat
-			resp = jsonify(jsonDat)
+			print jsonDat
+			jsonDat1 = get_rec(jsonDat)
+			print '\n', jsonDat1
+			resp = jsonify(jsonDat1)
 			resp.status_code = 200
 			return resp
 	except:
@@ -35,6 +36,5 @@ def updateRecommendations():
 		return 'Invalid Request, Try Again'
 
 if __name__ == "__main__":
-        port = int(os.environ.get("PORT", 5000))
-	app.debug = True
-        app.run(host='0.0.0.0', port=port)
+	port = int(os.environ.get("PORT", 5000))
+        app.run(host='0.0.0.0', port=port, debug=True, use_reloader=False)

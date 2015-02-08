@@ -35,5 +35,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.loopj.android:android-async-http:1.4.5'
-    compile(name:'android-card-stack-0.1.0', ext:'aar')
+    compile 'com.github.kikoso:SwipeableCards:1.0-RELEASE@aar'
 }

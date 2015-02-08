@@ -32,7 +32,7 @@ public class Util {
         Log.d(tag, "Switched to " + tag + " fragment");
     }
 
-    public static void getRecommendation(final FragmentActivity a, boolean switchToRecommend) {
+    public static void getRecommendation(final FragmentActivity a, final boolean switchToRecommend) {
         String userId = UserSession.getInstance().getUserId();
         HouseHuntRestClient.get("/rec/" + userId, null, new JsonHttpResponseHandler() {
             @Override
@@ -40,8 +40,10 @@ public class Util {
                 super.onSuccess(statusCode, headers, response);
                 Log.d("Util", "Get recommendation succeeded! Status code " + statusCode + "!");
                 UserSession.getInstance().setLiveable(response);
-                switchFragments(a, new RecommendFragment(),
-                        RecommendFragment.TAG, false);
+                if (switchToRecommend) {
+                    switchFragments(a, new RecommendFragment(),
+                            RecommendFragment.TAG, false);
+                }
             }
 
             @Override
@@ -63,7 +65,9 @@ public class Util {
                     e.printStackTrace();
                 }
                 UserSession.getInstance().setLiveable(data);
-                switchFragments(a, new RecommendFragment(), RecommendFragment.TAG, false);
+                if (switchToRecommend) {
+                    switchFragments(a, new RecommendFragment(), RecommendFragment.TAG, false);
+                }
             }
         });
     }

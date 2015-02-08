@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HouseHunt</string>
+    <string name="app_name">Refine</string>
     <string name="title_name">House Hunt</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">777898155632215</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="feedback_header">What didn\'t you like?</string>
+    <string name="price_high">Price Too High</string>
+    <string name="price_low">Price Too Low</string>
+    <string name="accessible_low">Low Accessibility</string>
+    <string name="accessible_high">High Accessibility</string>
+    <string name="education_low">Poor Schools</string>
+    <string name="transportation_high">High Transportation Costs</string>
 
 </resources>

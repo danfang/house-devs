@@ -80,6 +80,9 @@ public class UserSession {
     }
 
     public List<Liveable> getRecommendedLiveables() {
+        for (int i = 0; i < 10; i++) {
+            recommendedLiveable.add(recommendedLiveable.get(0));
+        }
         return recommendedLiveable;
     }
 

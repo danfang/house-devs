@@ -31,7 +31,8 @@ def getRecommendations():
 			resp = Response(responseString, status=200,  mimetype="application/json")
 			return resp
 	except:
-		print 'Invalid Request, Try Again'
+		resp = Response('No Results Found', status=404)
+		return resp
 
 @app.route('/updaterec', methods = ['POST','GET'])
 def updateRecommendations():

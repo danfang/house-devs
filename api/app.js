@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var winston = require('winston');
+var util = require('./util.js');
 
 var logger = new (winston.Logger)({
         transports: [
@@ -8,6 +9,8 @@ var logger = new (winston.Logger)({
             new (winston.transports.File)({ filename: '/var/log/houses/api.log' })
         ]
 });
+
+util.setLogger(logger);
 
 var PORT = 3000;
 var debug = true;
@@ -23,15 +26,78 @@ router.all('*', function(req, res, next) {
     next();
 });
 
+/**
+ * Processes an error object returned by pgCall by sending HTTP responses
+ * given the error type.
+ *
+ * @param queryErr: string to send instead of the generic query error.
+ */
+var handlePgCallError = function(err, res, queryErr) {
+    if (err && err.type === 'internal') {
+        res.status(500).json({'error': msg });
+        return true;
+    } else if (err) {
+        var msg;
+        msg = queryErr ? queryErr : 'There was an issue with your query.';
+        res.json({'error': msg });
+        return true;
+    }
+    return false;
+};
+
+
 ///////////////////////////////
 //// Client Calls
 //////////////////////////////
 
 router.route('/user/:userId')
 .get(function(req, res, next) {
+    logger.info('Got request for user ' + req.params.userId);
+    util.pgCall('getUser', [req.params.userId], function(err, result) {
+        if (handlePgCallError(err, res)) return;
 
+        if (result.rowCount === 1) {
+            logger.info('200')
+            res.status(200).json({'success': true});
+            return;
+        } 
+
+        logger.info('404')
+        res.status(404).json({'success': false});
+        return;
+    });
 })
 .post(function(req, res, next) {
+    data = req.body;
+
+    reqFields = ['locale', 'first_home', 'category', 'beds', 'voucher', 'subsidy', 'income',
+                 'price_weight', 'amenities_weight', 'education_weight', 'transportation_weight',
+                 'prop_type', 'age_range']
+
+    values = [];
+    errors = [];
+
+    values.push(req.params.userId);
+
+    for (index in reqFields) {
+        field = reqFields[index];
+
+        if (!data.hasOwnProperty(field)) {
+            errors.push(field + ' field missing');
+        }
+
+        values.push(data[field]);
+    }
+
+    if (errors.length > 0) {
+        res.status(400).json({'errors': errors});
+        return;
+    }
+
+    util.pgCall('createUser', values, function(err, result) {
+        if (handlePgCallError(err, res)) return;
+        res.json({'success': true});
+    });
 
 });
 

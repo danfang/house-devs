@@ -8,12 +8,14 @@ psql -f database.sql
 psql -f extensions/extensions.sql -d housing
 
 # Create tables
-psql -f ages.sql -d housing
-psql -f users.sql -d housing
-psql -f reject_reasons.sql -d housing
-psql -f prop_types.sql -d housing
-psql -f recs.sql -d housing
-psql -f user_messages.sql -d housing
+psql -f tables/ages.sql -d housing
+psql -f tables/prop_types.sql -d housing
+psql -f tables/reject_reasons.sql -d housing
+psql -f tables/users.sql -d housing
+psql -f tables/recs.sql -d housing
+psql -f tables/user_messages.sql -d housing
 
 # Grant permissions
 psql -f roles/permissions.sql -d housing
+
+psql -f data/populate.sql -d housing

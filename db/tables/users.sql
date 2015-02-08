@@ -11,9 +11,10 @@ CREATE TABLE users (
     amenities_weight numeric,
     education_weight numeric,
     transportation_weight numeric,
+    prop_type varchar REFERENCES prop_types(type),
     age_range integer REFERENCES ages(age_id),
-    CHECK (amenities > 0.0 AND amenities < 100.0),
-    CHECK (education > 0.0 AND education < 100.0),
-    CHECK (transportation > 0.0 AND transportation < 100.0),
-    CHECK (age_range > 0 AND age_range < 2)
+    CHECK (amenities_weight > 0.0 AND amenities_weight < 100.0),
+    CHECK (education_weight > 0.0 AND education_weight < 100.0),
+    CHECK (transportation_weight > 0.0 AND transportation_weight < 100.0),
+    CHECK (age_range >= 0 AND age_range <= 2)
 );

@@ -1,6 +1,6 @@
 var pg = require('pg');
 var DB_PASS = process.env.DB_PASS;
-var conString = "postgres://api:" + DB_PASS + "/housing";
+var conString = "postgres://api:" + DB_PASS + "@localhost/housing";
 
 var sql = {
     'getUser': 'SELECT 1 FROM users WHERE user_id=$1',

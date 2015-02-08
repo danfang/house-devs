@@ -13,7 +13,7 @@ var sql = {
             'education_weight=$3, transportation_weight=$4 WHERE user_id=$5',
     'insertRec': 'INSERT INTO recs(user_id, area, city, beds, latitude, longitude, zipcode, price, buyerseller, type) ' +
             'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING rec_id',
-    'rejectRec': 'UPDATE recs SET saved=false, reject_reason=$2 WHERE rec_id=$1',
+    'rejectRec': 'UPDATE recs SET save=false, reject_reason=$2 WHERE rec_id=$1',
     'getRecStatus': 'SELECT * FROM rec WHERE user_id=$1 AND save=$2',
     'getRecs': 'SELECT * from recs WHERE user_id=$1',
     'saveRec': 'UPDATE recs SET saved=true WHERE rec_id=$1',

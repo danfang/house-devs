@@ -23,7 +23,6 @@ Request
 | first_home | boolean| yes |   
 | category | string | yes |     
 | beds | integer | yes |     
-| voucher | boolean | yes |     
 | subsidy | boolean | yes |     
 | income | integer | yes |     
 | price_weight | float  | yes |     

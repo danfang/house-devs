@@ -8,6 +8,18 @@ import pandas as pd
 
 #user = {'user_id' : 'Jay Feng', 'beds': 2, 'subsidy' : False, 'income': 40000, 
 #'price_weight': 100, 'age': 50}
+user1 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
+0, u'user_id': u'10200118760568306', u'price_weight': u'1', u'locale': u'Vhvh', 
+u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
+    3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
+user2 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
+0, u'user_id': u'10200118760568306', u'price_weight': u'.9', u'locale': u'Vhvh', 
+u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
+    3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
+user3 = {u'category': u'Single Professional', u'subsidy': False, u'age_range': 
+0, u'user_id': u'10200118760568306', u'price_weight': u'1.2', u'locale': u'Vhvh', 
+u'first_home': True, u'prop_type': u'rent', u'education_weight': u'0', u'beds': 
+    3, u'voucher': False, u'income': u'70001', u'amenities_weight': u'0', u'transportation_weight': u'3'}
 #user = pd.read_json(fileDan)
 #user1 = pd.DataFrame(user, index=[1])
 c = '/home/jfeng/output.json'
@@ -39,7 +51,7 @@ def get1(user):
     global acc
     global c
     #check for elderly
-    if int(user['age']) > 55:
+    if int(user['age_range']) > 1:
         #retrieve dataset corresponding to old people
         data = get(user['user_id'].item(), acc)
     else:
@@ -65,7 +77,8 @@ def retrieve(data, user):
     #check for users who need vouchers
     if not user['subsidy'].item():
         #filter for correct number of beds and price below income level
-        apartment = data[(data['beds'] == int(user['beds'])) & (data['price'] < (int(user['income'])/12)*(int(user['price_weight'])/100)*0.3)]
+        data = data[(data['beds'] == int(user['beds']))]
+        apartment = data[data['price'] < (int(user['income'])/12)*float(user['price_weight'])*0.3]
         #assign the nicest neighborhood for the price
         if len(apartment) < 1:
             return NaN

@@ -15,7 +15,7 @@ We have documented our schemas and public APIs, which can be found at [API Refer
 
 ## Challenge Areas
 
-We decided to create a decision-making process (profile building) that allows us to explore many different aveneues of issues outlined in the Hack Housing guidelines. 
+We decided to create a decision-making process (profile building) that allows us to explore many different avenues of issues outlined in the Hack Housing [guidelines](http://www.zillow.com/wikipages/Hack-Housing-Empowering-Smarter-Decisions-Contest/). 
 
 Specifically during the competition period, we pursued:
 

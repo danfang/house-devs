@@ -82,7 +82,7 @@ router.route('/user/:userId')
 .post(function(req, res, next) {
     data = req.body;
 
-    reqFields = ['locale', 'first_home', 'category', 'beds', 'voucher', 'subsidy', 'income',
+    reqFields = ['locale', 'first_home', 'category', 'beds', 'subsidy', 'income',
                  'price_weight', 'amenities_weight', 'education_weight', 'transportation_weight',
                  'prop_type', 'age_range']
 
@@ -221,7 +221,7 @@ var updateRec = function(recId, res, reason) {
  * Gets a recommendation from the algorithm engine
  */
 var getRec = function(userId, res) {
-    logger.info('getting recommendation from algo');
+    logger.info('Getting recommendation from algo engine');
     util.pgCall('getUserData', [userId], function(err, result) {
         if (handlePgCallError(err, res)) return;
 

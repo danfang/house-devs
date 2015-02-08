@@ -4,7 +4,6 @@ CREATE TABLE users (
     first_home boolean,
     category varchar NOT NULL,
     beds integer,
-    voucher boolean,
     subsidy boolean,
     income numeric NOT NULL,
     price_weight numeric DEFAULT 1.0,

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background_material_dark"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/questionaire_layout"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent" >
+
+    <TextView
+        android:id="@+id/question"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:text="Where would you like to purchase a house?"
+        android:layout_marginTop="40dp"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:text="@string/next"
+        android:padding="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        android:text="@string/skip"
+        android:padding="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/skip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
+        <item name="android:typeface">monospace</item>
+        <!--<item name="android:theme">@android:style/Theme.NoTitleBar</item>-->
+    </style>
+</resources>

@@ -24,6 +24,9 @@ import android.widget.TextView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -71,18 +74,28 @@ public class QuestionaireFragment extends Fragment {
             Util.switchFragments(getActivity(), new QuestionaireFragment(), QuestionaireFragment.TAG,
                     true);
         } else { // current node is null, so make an async request with all the data.
-            UserSession.getInstance().getTotalData();
-            HouseHuntRestClient.post("/user", null, new JsonHttpResponseHandler(){
+            JSONObject data = UserSession.getInstance().getTotalData();
+            StringEntity entity = null;
+            try {
+                entity = new StringEntity(data.toString());
+                entity.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String userId = UserSession.getInstance().getUserId();
+            HouseHuntRestClient.post("/user/" + userId, entity, new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
-
+                    Log.d(TAG, statusCode + " status code. Success!");
+                    Util.switchFragments(getActivity(), new RecommendFragment(),
+                            RecommendFragment.TAG, false);
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     super.onFailure(statusCode, headers, throwable, errorResponse);
-
+                    Log.d(TAG, "It failed!");
                 }
             });
 

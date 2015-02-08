@@ -4,6 +4,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.entity.StringEntity;
+
 /**
  * HouseHuntRestClient used to communicate with the API.
  */
@@ -18,9 +20,9 @@ public class HouseHuntRestClient {
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
-    public static void post(String url, RequestParams params,
+    public static void post(String url, StringEntity params,
             AsyncHttpResponseHandler responseHandler) {
-        client.post(getAbsoluteUrl(url), params, responseHandler);
+        client.post(null, getAbsoluteUrl(url), params, "application/json", responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

@@ -44,19 +44,6 @@ public class LoginFragment extends Fragment {
         }
     };
 
-//    @OnClick(R.id.auth_button)
-//    public void submit() {
-//        Session s = Session.getActiveSession();
-//        if (!s.isClosed() && !s.isOpened()) {
-//            s.openForRead(new Session.OpenRequest(this)
-//                    .setPermissions(Arrays.asList("public_profile"))
-//                    .setCallback(mStatusCallback));
-//        } else { // then we should go back
-//            Session.openActiveSession(getActivity(), this, true, mStatusCallback);
-//        }
-//    }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -111,7 +98,7 @@ public class LoginFragment extends Fragment {
                 if (statusCode == 200) { // success!
                     UserSession.getInstance().setLiveable(response);
                     Util.switchFragments(getActivity(), new RecommendFragment(),
-                            RecommendFragment.TAG, true);
+                            QuestionaireFragment.TAG, true);
                 }
             }
 
@@ -119,6 +106,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 //                if (statusCode == 404) { // no user exists yet, prompt the questionaire.
+                Log.d(TAG, "Got response code " + statusCode + " from HouseHunters API");
                     Util.switchFragments(getActivity(), new QuestionaireFragment(),
                             QuestionaireFragment.TAG, true);
 //                }

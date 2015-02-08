@@ -1,6 +1,7 @@
 package hack.com.househunt.internal;
 
 import android.location.Location;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,14 +14,17 @@ import java.util.List;
  */
 public class UserSession {
 
+    public static final String TAG = UserSession.class.getSimpleName();
+
     private static UserSession instance;
     private JSONObject facebookData;
+    private JSONObject userData;
     private String userId;
     private List<Liveable> savedLiveables; // used to be displayed on the grid view
     private Liveable recommendedLiveable;
 
     private UserSession() {
-
+        userData = new JSONObject();
     }
 
     public static UserSession getInstance() {
@@ -30,8 +34,13 @@ public class UserSession {
         return instance;
     }
 
-    public void setUserId(String facebookId) {
-        userId = facebookId;
+    public void setField(String key, Object value) {
+        try {
+            Log.d(TAG, "Successfully set " + key + " to the value " + value);
+            userData.put(key, value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getUserId() {
@@ -73,6 +82,83 @@ public class UserSession {
      * @return A JSONObject representing all the data to create a new user.
      */
     public JSONObject getTotalData() {
-        return facebookData;
+        // modify the total data
+        try {
+            String ageRange = (String) userData.remove("age_range");
+            switch (ageRange) {
+                case "Under 25": {
+                    userData.put("age_range", 0);
+                    break;
+                }
+                case "25 - 55": {
+                    userData.put("age_range", 1);
+                    break;
+                }
+                case "55+": {
+                    userData.put("age_range", 2);
+                    break;
+                }
+            }
+            String firstHome = (String) userData.remove("first_home");
+            switch (firstHome) {
+                case "Yes": {
+                    userData.put("first_home", true);
+                    break;
+                }
+                case "No": {
+                    userData.put("first_home", false);
+                    break;
+                }
+            }
+            String educationWeight = (String) userData.remove("education_weight");
+            if (educationWeight != null) {
+                userData.put("education_weight", Integer.parseInt(educationWeight));
+            } else {
+                userData.put("education_weight", 0);
+            }
+            String amenitiesWeight = (String) userData.remove("amenities_weight");
+            if (amenitiesWeight != null) {
+                userData.put("amenities_weight", Integer.parseInt(amenitiesWeight));
+            } else {
+                userData.put("amenities_weight", 0);
+            }
+            String voucher = (String) userData.remove("voucher");
+            userData.put("voucher", voucher.equals("Yes"));
+            String subsidies = (String) userData.remove("subsidies");
+            userData.put("subsidy", subsidies.equals("Yes"));
+            userData.put("price_weight", 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "modified data " + userData.toString());
+        return userData;
+    }
+
+    public int getIncomeFromIdentifier() {
+        int estimatedIncome = -1;
+        try {
+          String income = userData.getString("category");
+          Log.d(TAG, "Success! Income is not null");
+          switch (income) {
+              case Constant.SINGLE_PROFESSIONAL_STR: {
+                  return Constant.SINGLE_PROFESSIONAL;
+              }
+              case Constant.WORKING_INDIVIDUAL_STR: {
+                  return Constant.WORKING_INDIVIDUAL;
+              }
+              case Constant.SINGLE_PARENT_FAMILY_STR: {
+                  return Constant.SINGLE_PARENT_FAMILY;
+              }
+              case Constant.MODERATE_INCOME_FAMILY_STR: {
+                  return Constant.MODERATE_INCOME_FAMILY;
+              }
+              case Constant.DUAL_PROFESSIONAL_FAMILY_STR: {
+                  return Constant.DUAL_PROFESSIONAL_FAMILY;
+              }
+          }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return estimatedIncome;
     }
 }

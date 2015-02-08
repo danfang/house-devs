@@ -15,6 +15,10 @@ p {
     line-height: 2rem;
 }
 
+img.responsive-img {
+    height: 250px;
+}
+
 h1.header {
     font-weight: 500;
 }

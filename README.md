@@ -3,8 +3,6 @@
 
 ## Overview
 
-![Image of App](splash.jpg)
-
 Hi! We're team 10 (The House Devs) and we've created Refine, a decision making engine that utilizes the datasets that we found most impactful.  What Refine does is help those who have vague ideas about what living criteria they require (price, neighborhood, affordability), but are very clear about their personal lives and needs. 
 
 We believe it's easier for users to answer questions about what they prefer and value rather having to filter through huge sets of results over broad criteria. From these questions, we generate a profile and list of suggested living solutions, which they can "reject" or "save" to their profile. Each time they make such a decision, we analyze the reason why they chose to save or reject a property and refine our search results based on several heuristics backed by data sets.
